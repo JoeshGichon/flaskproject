@@ -7,6 +7,8 @@ from src.bookmarks import bookmarks
 from src.database import db
 from flask_jwt_extended import JWTManager
 from flask import jsonify
+from  flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager,Server
 
 def create_app(test_config=None):
     app = Flask(__name__,instance_relative_config=True)
@@ -21,6 +23,13 @@ def create_app(test_config=None):
 
     db.app = app
     db.init_app(app) 
+
+    manager = Manager(app)
+    manager.add_command('server',Server)
+
+
+    migrate = Migrate(app,db)
+    manager.add_command('db',MigrateCommand)
 
     JWTManager(app)
 
