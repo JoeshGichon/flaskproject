@@ -1,0 +1,32 @@
+User Registration
+---
+tags:
+  - Authentication
+parameters:
+  - name: body
+    description: Contains User registration details
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "email"
+        - "password"
+        - "username"
+      properties:
+        email:
+          type: "email"
+          example: "johngicho04@gmail.com"
+        username:
+          type: "username"
+          example: "johngicho"
+        password:
+          type: "string"
+          format: password
+          example: "********"
+responses:
+  201:
+    description: successfully logging in
+
+  400:
+    description: Fails to Register User
