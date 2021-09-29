@@ -1,10 +1,12 @@
 from posix import environ
+from src.constants.status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 from flask import Flask
 import os
 from src.auth import auth
 from src.bookmarks import bookmarks
 from src.database import db
 from flask_jwt_extended import JWTManager
+from flask import jsonify
 
 def create_app(test_config=None):
     app = Flask(__name__,instance_relative_config=True)
@@ -24,6 +26,14 @@ def create_app(test_config=None):
 
     app.register_blueprint(auth)
     app.register_blueprint(bookmarks)
+
+    @app.errorhandler(HTTP_404_NOT_FOUND)
+    def handle_404(e):
+        return jsonify({"error":"Not found"}),HTTP_404_NOT_FOUND
+
+    @app.errorhandler(HTTP_500_INTERNAL_SERVER_ERROR)
+    def handle_500(e):
+        return jsonify({"error":"Internal server error"}),HTTP_500_INTERNAL_SERVER_ERROR
 
     return  app
 
