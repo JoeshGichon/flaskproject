@@ -48,6 +48,16 @@ class Bookmark(db.Model):
     def __repr__(self):
         return f"Bookmark>>>{self.url}"
 
+class Category(db.Model):
+    __tablename__ = 'categories'
+    
+    categoryid = db.Column(db.Integer, primary_key=True)
+    category_name = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Category('{self.categoryid}', '{self.category_name}')"
+
 
 
 
