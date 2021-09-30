@@ -70,8 +70,6 @@ def login():
         return jsonify({"error":"wrong credentials"}),HTTP_401_UNAUTHORIZED
 
 
-
-
 @auth.get("/me")
 @jwt_required()
 def me():

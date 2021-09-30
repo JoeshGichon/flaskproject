@@ -2,10 +2,12 @@ from posix import environ
 from src.constants.status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 from flask import Flask, config
 import os
+
 from src.auth import auth
 from src.bookmarks import bookmarks
 from src.product import products
 from src.cartegory import categories
+
 from src.order import orders
 from src.database import db
 from flask_jwt_extended import JWTManager
