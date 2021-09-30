@@ -7,9 +7,9 @@ from src.auth import auth
 from src.bookmarks import bookmarks
 from src.product import products
 from src.cartegory import categories
-
 from src.order import orders
 from src.database import db
+
 from flask_jwt_extended import JWTManager
 from flask import jsonify
 from  flask_migrate import Migrate, MigrateCommand
