@@ -49,14 +49,28 @@ class Bookmark(db.Model):
         return f"Bookmark>>>{self.url}"
 
 class Category(db.Model):
-    __tablename__ = 'categories'
-    
+    __tablename__ = 'category'
+
     categoryid = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Category('{self.categoryid}', '{self.category_name}')"
+
+class Product(db.Model):
+    __tablename__ = 'product'
+
+    productid = db.Column(db.Integer, primary_key=True)
+    product_name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(100), nullable=False)
+    image = db.Column(db.String(100), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    regular_price = db.Column(db.DECIMAL)
+
+    def __repr__(self):
+        return f"Product('{self.productid}','{self.product_name}','{self.description}', '{self.image}',  '{self.quantity}', '{self.regular_price}')"
+
 
 
 
