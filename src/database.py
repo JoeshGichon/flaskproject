@@ -55,6 +55,8 @@ class Category(db.Model):
     category_name = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+    product_category = db.relationship("ProductCategory",backref="productcategory")
+
     def __repr__(self):
         return f"Category('{self.categoryid}', '{self.category_name}')"
 
@@ -68,9 +70,21 @@ class Product(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     regular_price = db.Column(db.DECIMAL)
 
+    product_category = db.relationship("ProductCategory",backref="productcategory")
+
     def __repr__(self):
         return f"Product('{self.productid}','{self.product_name}','{self.description}', '{self.image}',  '{self.quantity}', '{self.regular_price}')"
 
+class ProductCategory(db.Model):
+
+    __tablename__ = 'productcategory'
+
+    categoryid = db.Column(db.Integer, db.ForeignKey('category.categoryid'), nullable=False, primary_key=True)
+    productid = db.Column(db.Integer, db.ForeignKey('product.productid'), nullable=False, primary_key=True)
+    created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Product('{self.categoryid}', '{self.productid}')"
 
 
 
