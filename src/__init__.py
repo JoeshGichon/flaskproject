@@ -4,6 +4,9 @@ from flask import Flask, config
 import os
 from src.auth import auth
 from src.bookmarks import bookmarks
+from src.product import products
+from src.cartegory import categories
+from src.order import orders
 from src.database import db
 from flask_jwt_extended import JWTManager
 from flask import jsonify
@@ -43,6 +46,9 @@ def create_app(test_config=None):
 
     app.register_blueprint(auth)
     app.register_blueprint(bookmarks)
+    app.register_blueprint(products)
+    app.register_blueprint(categories)
+    app.register_blueprint(orders)
 
     @app.errorhandler(HTTP_404_NOT_FOUND)
     def handle_404(e):
