@@ -15,6 +15,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime,default=datetime.now())
     updated_at = db.Column(db.DateTime,onupdate=datetime.now())
 
+    order = db.relationship("Order",backref="order")
     cart = db.relationship("Cart",backref="cart")
     bookmarks = db.relationship("Bookmark",backref="users")
 
@@ -73,6 +74,7 @@ class Product(db.Model):
 
     product_category = db.relationship("ProductCategory",backref="productcategory")
     cart = db.relationship("Cart",backref="cart")
+    orderprod = db.relationship("OrderedProduct",backref="orderproduct")
 
     def __repr__(self):
         return f"Product('{self.productid}','{self.product_name}','{self.description}', '{self.image}',  '{self.quantity}', '{self.regular_price}')"
@@ -98,6 +100,46 @@ class Cart(db.Model):
 
     def __repr__(self):
         return f"Cart('{self.userid}', '{self.productid}, '{self.quantity}')"
+
+class Order(db.Model):
+
+    __tablename__ = 'order'
+
+    orderid = db.Column(db.Integer, primary_key=True)
+    order_date = db.Column(db.DateTime, nullable=False)
+    total_price = db.Column(db.DECIMAL, nullable=False)
+    userid = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, primary_key=True)
+
+    orderprod = db.relationship("OrderedProduct",backref="orderproduct")
+    sales = db.relationship("SaleTransaction",backref="salestransaction")
+
+    def __repr__(self):
+        return f"Order('{self.orderid}', '{self.order_date}','{self.total_price}','{self.userid}'')"
+
+class OrderedProduct(db.Model):
+
+    __tablename__ = 'orderproduct'
+
+    ordproductid = db.Column(db.Integer, primary_key=True)
+    orderid = db.Column(db.Integer,db.ForeignKey('order.orderid'), nullable=False)
+    productid = db.Column(db.Integer,db.ForeignKey('product.productid'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"Order('{self.ordproductid}', '{self.orderid}','{self.productid}','{self.quantity}')"
+
+class SaleTransaction(db.Model):
+
+    __tablename__ = 'salestransaction'
+
+    transactionid = db.Column(db.Integer, primary_key=True)
+    orderid = db.Column(db.Integer,db.ForeignKey('order.orderid'), nullable=False)
+    transaction_date = db.Column(db.DateTime,nullable=False)
+    amount = db.Column(db.DECIMAL, nullable=False)
+
+    def __repr__(self):
+        return f"Order('{self.transactionid}', '{self.orderid}','{self.transactiondate}','{self.amount}')"
+
 
 
 
