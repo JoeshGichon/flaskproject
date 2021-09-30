@@ -15,6 +15,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime,default=datetime.now())
     updated_at = db.Column(db.DateTime,onupdate=datetime.now())
 
+    cart = db.relationship("Cart",backref="cart")
     bookmarks = db.relationship("Bookmark",backref="users")
 
     def __repr__(self):
@@ -71,6 +72,7 @@ class Product(db.Model):
     regular_price = db.Column(db.DECIMAL)
 
     product_category = db.relationship("ProductCategory",backref="productcategory")
+    cart = db.relationship("Cart",backref="cart")
 
     def __repr__(self):
         return f"Product('{self.productid}','{self.product_name}','{self.description}', '{self.image}',  '{self.quantity}', '{self.regular_price}')"
@@ -85,6 +87,17 @@ class ProductCategory(db.Model):
 
     def __repr__(self):
         return f"Product('{self.categoryid}', '{self.productid}')"
+
+class Cart(db.Model):
+
+    __tablename__ = 'cart'
+
+    userid = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, primary_key=True)
+    productid = db.Column(db.Integer, db.ForeignKey('product.productid'), nullable=False, primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"Cart('{self.userid}', '{self.productid}, '{self.quantity}')"
 
 
 
